@@ -1,15 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    color-scheme: dark;
+    --green: #9bd66c;
+    --green-dark: #426d39;
+    --panel: rgba(12, 22, 16, .82);
+    --line: rgba(224, 255, 218, .18);
+}
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
+    background: #17251b;
+    color: #fff;
+    font-family: Inter, Arial, sans-serif;
     user-select: none;
 }
 
@@ -20,317 +34,522 @@ canvas {
     z-index: 0;
 }
 
-#start-screen,
-#pause-screen {
+/* OBRAZOVKY */
+
+.screen {
     position: fixed;
     inset: 0;
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    background:
-        linear-gradient(rgba(5, 15, 10, .65), rgba(5, 15, 10, .85)),
-        radial-gradient(circle, #315c3a, #101c15);
     text-align: center;
+    padding: 24px;
+
+    background: radial-gradient(
+        ellipse at 50% 40%,
+        rgba(43, 79, 48, .55),
+        rgba(5, 13, 9, .94)
+    );
+
+    backdrop-filter: blur(8px);
 }
 
 .start-content,
 .pause-content {
-    padding: 35px;
-    max-width: 550px;
-    width: 90%;
+    width: min(560px, 100%);
+    padding: 44px 34px;
+
+    border: 1px solid var(--line);
+    border-radius: 22px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(25, 43, 29, .9),
+        rgba(9, 17, 12, .88)
+    );
+
+    box-shadow: 0 30px 100px #0008;
 }
 
 .game-logo {
-    font-size: 75px;
+    font-size: 58px;
     margin-bottom: 12px;
+    filter: drop-shadow(0 8px 18px #0008);
+}
+
+.eyebrow {
+    color: #b5d6a2;
+    font-size: 10px;
+    letter-spacing: 4px;
+    font-weight: 800;
 }
 
 h1 {
-    font-size: clamp(38px, 8vw, 65px);
-    letter-spacing: 5px;
+    font-size: clamp(38px, 8vw, 66px);
+    letter-spacing: 3px;
+    line-height: 1.05;
+    margin-top: 12px;
     font-weight: 900;
 }
 
 h1 span {
-    color: #82d65c;
+    color: var(--green);
 }
 
-.start-content > p {
-    margin-top: 12px;
-    color: #c1d1c0;
-    letter-spacing: 3px;
+.intro {
+    color: #c5d2c3;
+    margin-top: 14px;
+    font-size: 14px;
 }
+
+/* TLAČIDLÁ */
 
 button {
     cursor: pointer;
-    border: none;
+    border: 0;
+    border-radius: 9px;
     color: white;
-    background: #4c9c42;
-    padding: 15px 35px;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    border-radius: 5px;
-    transition: .2s;
+
+    font: 800 12px Inter, sans-serif;
+    letter-spacing: 1.5px;
+
+    transition:
+        transform .18s,
+        background .18s,
+        border-color .18s;
 }
 
 button:hover {
-    background: #70c45c;
-    transform: scale(1.04);
+    transform: translateY(-2px);
 }
 
-#start-button {
-    margin-top: 35px;
+.primary-button {
+    margin-top: 30px;
+    padding: 16px 34px;
     min-width: 220px;
+
+    background: linear-gradient(
+        135deg,
+        #79bd50,
+        #477d3c
+    );
+
+    box-shadow: 0 8px 25px #4c913c55;
 }
+
+.primary-button:hover {
+    background: linear-gradient(
+        135deg,
+        #91d568,
+        #5c994b
+    );
+}
+
+.secondary-button {
+    padding: 13px 20px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid var(--line);
+}
+
+.secondary-button:hover {
+    background: rgba(255,255,255,.15);
+}
+
+/* OVLÁDANIE */
 
 .controls-info {
-    margin-top: 35px;
-    color: #c0c9c0;
-    line-height: 2;
-    font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px 18px;
+
+    margin-top: 32px;
+    text-align: left;
+
+    color: #b9c8b8;
+    font-size: 11px;
 }
 
+.controls-info span {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.controls-info b {
+    color: #e5f2df;
+    font-size: 10px;
+}
+
+/* HERNÉ UI */
+
 #game-ui {
+    display: none;
     position: fixed;
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    display: none;
 }
 
 .top-bar {
     position: absolute;
-    top: 20px;
-    left: 22px;
-    right: 22px;
+    top: 22px;
+    left: 26px;
+    right: 26px;
+
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
 
 .game-title {
-    font-size: 17px;
     font-weight: 900;
     letter-spacing: 2px;
-    text-shadow: 0 2px 5px #000;
+    font-size: 14px;
+    text-shadow: 0 2px 8px #000;
+}
+
+.game-title span {
+    margin-right: 7px;
 }
 
 .day-counter {
-    background: rgba(0,0,0,.55);
-    padding: 10px 17px;
-    border-radius: 5px;
-    font-size: 12px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 10px 16px;
+    border-radius: 9px;
+
+    font-size: 10px;
     letter-spacing: 2px;
 }
 
+.day-counter strong {
+    color: var(--green);
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+/* ŽIVOT A HLAD */
+
 .status-panel {
     position: absolute;
-    top: 75px;
-    left: 22px;
-    width: 190px;
-    display: flex;
-    flex-direction: column;
+    top: 78px;
+    left: 26px;
+    width: 210px;
+
+    display: grid;
     gap: 10px;
 }
 
-.status {
-    display: flex;
+.status-row {
+    display: grid;
+    grid-template-columns: 22px 1fr 27px;
     align-items: center;
-    gap: 10px;
-    font-size: 19px;
+    gap: 9px;
+    font-size: 15px;
+}
+
+.status-row b {
+    font-size: 10px;
+    color: #edf5e9;
+    text-align: right;
 }
 
 .status-bar {
-    flex: 1;
-    height: 12px;
-    background: rgba(0,0,0,.55);
-    border: 1px solid rgba(255,255,255,.4);
-    border-radius: 10px;
+    height: 10px;
+    border-radius: 20px;
     overflow: hidden;
+    background: #0009;
+    border: 1px solid #ffffff55;
 }
 
 .status-bar div {
-    width: 100%;
     height: 100%;
-    transition: width .3s;
+    width: 100%;
+    transition: width .25s;
+    border-radius: inherit;
 }
 
 .health-fill {
-    background: #e84c4c;
+    background: linear-gradient(
+        90deg,
+        #c63c3c,
+        #ff7770
+    );
 }
 
 .hunger-fill {
-    background: #e6a93b;
+    background: linear-gradient(
+        90deg,
+        #c8872f,
+        #f4ca61
+    );
 }
+
+/* ZAMERIAVAČ */
 
 #crosshair {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 27px;
-    color: white;
-    text-shadow: 0 0 4px black;
+
+    width: 17px;
+    height: 17px;
+
+    transform: translate(-50%,-50%);
 }
 
-.hotbar {
+#crosshair:before,
+#crosshair:after {
+    content: '';
     position: absolute;
-    bottom: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
+    background: #fff;
+    box-shadow: 0 1px 4px #000;
+    border-radius: 2px;
 }
 
-.hotbar-slot {
-    position: relative;
-    width: 57px;
-    height: 57px;
-    background: rgba(15, 20, 15, .75);
-    border: 2px solid rgba(255,255,255,.3);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
+#crosshair:before {
+    width: 2px;
+    height: 17px;
+    left: 7px;
 }
 
-.hotbar-slot.selected {
-    border: 3px solid #b6ed73;
-    background: rgba(100,150,70,.55);
+#crosshair:after {
+    height: 2px;
+    width: 17px;
+    top: 7px;
 }
 
-.slot-number {
+#target-message {
     position: absolute;
-    top: 3px;
-    left: 5px;
-    font-size: 10px;
-    color: #ccc;
-}
-
-.bottom-hint {
-    position: absolute;
-    bottom: 12px;
+    top: calc(50% + 24px);
     width: 100%;
     text-align: center;
     color: white;
     font-size: 11px;
-    text-shadow: 0 1px 4px black;
+    text-shadow: 0 2px 5px #000;
 }
+
+/* HOTBAR */
+
+.hotbar {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 7px;
+}
+
+.hotbar-slot {
+    position: relative;
+
+    width: 65px;
+    height: 66px;
+
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+
+    background: rgba(9, 17, 12, .76);
+    border: 1px solid #ffffff45;
+
+    box-shadow: 0 5px 18px #0005;
+    backdrop-filter: blur(8px);
+}
+
+.hotbar-slot.selected {
+    border: 2px solid #b5e98b;
+
+    background: rgba(86, 133, 62, .72);
+
+    box-shadow: 0 0 18px #8dc65b55;
+}
+
+.hotbar-slot small {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+
+    color: #dce8d7;
+    font-size: 9px;
+}
+
+.hotbar-slot span {
+    font-size: 24px;
+}
+
+.hotbar-slot em {
+    color: #d6e0d2;
+    font-size: 8px;
+    font-style: normal;
+}
+
+.bottom-hint {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 9px;
+    color: #e1e9dc;
+    text-shadow: 0 2px 5px #000;
+}
+
+.bottom-hint b {
+    color: var(--green);
+    margin: 0 5px;
+}
+
+/* INVENTÁR */
 
 #inventory {
     display: none;
+
     position: absolute;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 320px;
-    background: rgba(15,25,17,.96);
-    border: 2px solid #719a5c;
-    border-radius: 10px;
-    padding: 23px;
+    top: 50%;
+
+    transform: translate(-50%,-50%);
+
+    width: min(350px, calc(100vw - 32px));
+    padding: 25px;
+
     pointer-events: auto;
-    box-shadow: 0 10px 40px #0009;
+
+    border: 1px solid #a4d47a77;
+    border-radius: 15px;
+
+    background: rgba(10, 20, 13, .96);
+
+    box-shadow: 0 20px 70px #000a;
 }
 
 .inventory-title {
-    font-weight: 900;
-    letter-spacing: 3px;
-    font-size: 18px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    margin-bottom: 24px;
 }
 
 .inventory-title span {
-    color: #9acb75;
+    color: var(--green);
+    font-size: 11px;
 }
 
 .inventory-items {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 17px;
-    font-size: 16px;
+}
+
+.inventory-items div {
+    display: flex;
+    justify-content: space-between;
+    color: #d8e4d3;
+    font-size: 13px;
 }
 
 .inventory-items b {
-    color: #a5dc79;
-    float: right;
+    color: var(--green);
 }
 
 #close-inventory {
     margin-top: 25px;
     width: 100%;
-    padding: 12px;
-    font-size: 12px;
 }
+
+/* SPRÁVY */
 
 #message {
     position: absolute;
-    bottom: 115px;
+    bottom: 120px;
     width: 100%;
+
     text-align: center;
-    font-weight: bold;
-    color: #c9f99b;
-    text-shadow: 0 2px 5px black;
+    color: #d8ffb6;
+    font-weight: 800;
+    font-size: 13px;
+    text-shadow: 0 2px 6px #000;
+
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .25s;
 }
 
-#target-message {
-    position: absolute;
-    top: calc(50% + 30px);
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    color: white;
-    text-shadow: 0 2px 4px black;
-}
+/* PAUZA */
 
 #pause-screen {
     display: none;
-    background: rgba(5,12,8,.88);
+    background: rgba(3, 9, 5, .78);
 }
 
-.pause-content h1 {
-    margin-bottom: 30px;
+.pause-content h2 {
+    font-size: clamp(30px, 6vw, 48px);
+    letter-spacing: 3px;
+    margin: 13px 0 10px;
 }
 
-.pause-content button {
+.pause-content .primary-button {
     display: block;
-    width: 230px;
-    margin: 12px auto;
+    margin: 25px auto 10px;
 }
 
-.pause-content p {
-    margin-top: 20px;
-    color: #aaa;
-    font-size: 12px;
+.pause-content .secondary-button {
+    min-width: 220px;
+    margin: 8px auto;
 }
 
-@media(max-width: 600px) {
-    .status-panel {
-        top: 70px;
-        width: 145px;
+.pause-content > p:last-child {
+    color: #aab9a8;
+    font-size: 11px;
+    margin-top: 18px;
+}
+
+/* MOBIL */
+
+@media (max-width: 600px) {
+
+    .start-content,
+    .pause-content {
+        padding: 32px 20px;
+    }
+
+    .controls-info {
+        gap: 10px;
+        font-size: 10px;
     }
 
     .top-bar {
-        left: 12px;
-        right: 12px;
+        left: 13px;
+        right: 13px;
+        top: 13px;
+    }
+
+    .status-panel {
+        left: 13px;
+        top: 65px;
+        width: 165px;
+    }
+
+    .hotbar {
+        bottom: 24px;
+        gap: 5px;
     }
 
     .hotbar-slot {
-        width: 48px;
-        height: 48px;
+        width: 55px;
+        height: 59px;
     }
 
     .bottom-hint {
         display: none;
-    }
-
-    .controls-info {
-        font-size: 10px;
     }
 }
