@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wild Survival</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <div id="start-screen">
+        <div class="start-content">
+            <div class="game-logo">🌲</div>
+            <h1>WILD <span>SURVIVAL</span></h1>
+            <p>Explore. Collect. Survive.</p>
+            <button id="start-button">START GAME</button>
+            <div class="controls-info">
+                WASD – Pohyb &nbsp; | &nbsp; SPACE – Skok<br>
+                SHIFT – Beh &nbsp; | &nbsp; E – Inventár<br>
+                Ľavé tlačidlo – Ťaženie &nbsp; | &nbsp; Pravé – Stavanie
+            </div>
+        </div>
+    </div>
+
+    <div id="game-ui">
+        <div class="top-bar">
+            <div class="game-title">🌲 WILD SURVIVAL</div>
+            <div class="day-counter">DAY <span id="day">1</span></div>
+        </div>
+
+        <div class="status-panel">
+            <div class="status">
+                <span>❤️</span>
+                <div class="status-bar">
+                    <div id="health-fill" class="health-fill"></div>
+                </div>
+            </div>
+            <div class="status">
+                <span>🍗</span>
+                <div class="status-bar">
+                    <div id="hunger-fill" class="hunger-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="crosshair">+</div>
+
+        <div id="target-message"></div>
+
+        <div id="inventory">
+            <div class="inventory-title">INVENTORY <span>E</span></div>
+            <div class="inventory-items">
+                <div>🪵 Wood: <b id="wood-count">0</b></div>
+                <div>🪨 Stone: <b id="stone-count">0</b></div>
+                <div>🧱 Blocks: <b id="block-count">0</b></div>
+            </div>
+            <button id="close-inventory">CLOSE</button>
+        </div>
+
+        <div class="hotbar">
+            <div class="hotbar-slot selected" data-slot="1">
+                <span class="slot-number">1</span>
+                <span>🪓</span>
+            </div>
+            <div class="hotbar-slot" data-slot="2">
+                <span class="slot-number">2</span>
+                <span>🪵</span>
+            </div>
+            <div class="hotbar-slot" data-slot="3">
+                <span class="slot-number">3</span>
+                <span>🪨</span>
+            </div>
+            <div class="hotbar-slot" data-slot="4">
+                <span class="slot-number">4</span>
+                <span>🧱</span>
+            </div>
+        </div>
+
+        <div class="bottom-hint">
+            WASD: Move &nbsp; | &nbsp; E: Inventory &nbsp; | &nbsp; ESC: Pause
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <div id="pause-screen">
+        <div class="pause-content">
+            <h1>PAUSED</h1>
+            <button id="resume-button">CONTINUE</button>
+            <button id="save-button">SAVE GAME</button>
+            <p>ESC – Continue</p>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
