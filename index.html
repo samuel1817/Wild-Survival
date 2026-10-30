@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17251b">
     <title>Wild Survival</title>
+
     <link rel="stylesheet" href="style.css">
 
     <script type="importmap">
@@ -15,92 +16,192 @@
     }
     </script>
 </head>
+
 <body>
 
-    <div id="start-screen">
+    <!-- ÚVODNÁ OBRAZOVKA -->
+    <div id="start-screen" class="screen">
         <div class="start-content">
+
             <div class="game-logo">🌲</div>
+
+            <p class="eyebrow">EXPLORE · COLLECT · SURVIVE</p>
+
             <h1>WILD <span>SURVIVAL</span></h1>
-            <p>Explore. Collect. Survive.</p>
-            <button id="start-button">START GAME</button>
+
+            <p class="intro">
+                Začni svoje dobrodružstvo v divočine.
+            </p>
+
+            <button id="start-button" class="primary-button">
+                ZAČAŤ HRU
+            </button>
+
             <div class="controls-info">
-                WASD – Pohyb &nbsp; | &nbsp; SPACE – Skok<br>
-                SHIFT – Beh &nbsp; | &nbsp; E – Inventár<br>
-                Ľavé tlačidlo – Ťaženie &nbsp; | &nbsp; Pravé – Stavanie
+                <span><b>W A S D</b> Pohyb</span>
+                <span><b>MYŠ</b> Rozhliadanie</span>
+                <span><b>SPACE</b> Skok</span>
+                <span><b>SHIFT</b> Beh</span>
+                <span><b>E</b> Inventár</span>
+                <span><b>1–4</b> Výber predmetu</span>
+                <span><b>ĽAVÉ</b> Ťaženie</span>
+                <span><b>PRAVÉ</b> Stavanie</span>
+                <span><b>ESC</b> Pauza</span>
             </div>
+
         </div>
     </div>
 
-    <div id="game-ui">
-        <div class="top-bar">
-            <div class="game-title">🌲 WILD SURVIVAL</div>
-            <div class="day-counter">DAY <span id="day">1</span></div>
-        </div>
 
+    <!-- HERNÉ ROZHRANIE -->
+    <div id="game-ui">
+
+        <header class="top-bar">
+
+            <div class="game-title">
+                <span>🌲</span> WILD SURVIVAL
+            </div>
+
+            <div class="day-counter">
+                DEŇ <strong id="day">1</strong>
+            </div>
+
+        </header>
+
+
+        <!-- ŽIVOT A HLAD -->
         <div class="status-panel">
-            <div class="status">
+
+            <div class="status-row">
                 <span>❤️</span>
+
                 <div class="status-bar">
                     <div id="health-fill" class="health-fill"></div>
                 </div>
+
+                <b id="health-value">100</b>
             </div>
-            <div class="status">
+
+            <div class="status-row">
                 <span>🍗</span>
+
                 <div class="status-bar">
                     <div id="hunger-fill" class="hunger-fill"></div>
                 </div>
+
+                <b id="hunger-value">100</b>
             </div>
+
         </div>
 
-        <div id="crosshair">+</div>
+
+        <!-- ZAMERIAVAČ -->
+        <div id="crosshair">
+            <i></i>
+        </div>
 
         <div id="target-message"></div>
 
-        <div id="inventory">
-            <div class="inventory-title">INVENTORY <span>E</span></div>
-            <div class="inventory-items">
-                <div>🪵 Wood: <b id="wood-count">0</b></div>
-                <div>🪨 Stone: <b id="stone-count">0</b></div>
-                <div>🧱 Blocks: <b id="block-count">0</b></div>
+
+        <!-- INVENTÁR -->
+        <section id="inventory">
+
+            <div class="inventory-title">
+                INVENTÁR
+                <span>[E]</span>
             </div>
-            <button id="close-inventory">CLOSE</button>
+
+            <div class="inventory-items">
+
+                <div>
+                    <span>🪵 Drevo</span>
+                    <b id="wood-count">0</b>
+                </div>
+
+                <div>
+                    <span>🪨 Kameň</span>
+                    <b id="stone-count">0</b>
+                </div>
+
+                <div>
+                    <span>🧱 Bloky</span>
+                    <b id="block-count">8</b>
+                </div>
+
+            </div>
+
+            <button id="close-inventory" class="secondary-button">
+                ZAVRIEŤ
+            </button>
+
+        </section>
+
+
+        <!-- HOTBAR -->
+        <div class="hotbar">
+
+            <div class="hotbar-slot selected" data-slot="1">
+                <small>1</small>
+                <span>🪓</span>
+                <em>Sekera</em>
+            </div>
+
+            <div class="hotbar-slot" data-slot="2">
+                <small>2</small>
+                <span>🪵</span>
+                <em>Drevo</em>
+            </div>
+
+            <div class="hotbar-slot" data-slot="3">
+                <small>3</small>
+                <span>🪨</span>
+                <em>Kameň</em>
+            </div>
+
+            <div class="hotbar-slot" data-slot="4">
+                <small>4</small>
+                <span>🧱</span>
+                <em>Blok</em>
+            </div>
+
         </div>
 
-        <div class="hotbar">
-            <div class="hotbar-slot selected" data-slot="1">
-                <span class="slot-number">1</span>
-                <span>🪓</span>
-            </div>
-            <div class="hotbar-slot" data-slot="2">
-                <span class="slot-number">2</span>
-                <span>🪵</span>
-            </div>
-            <div class="hotbar-slot" data-slot="3">
-                <span class="slot-number">3</span>
-                <span>🪨</span>
-            </div>
-            <div class="hotbar-slot" data-slot="4">
-                <span class="slot-number">4</span>
-                <span>🧱</span>
-            </div>
-        </div>
 
         <div class="bottom-hint">
-            WASD: Move &nbsp; | &nbsp; E: Inventory &nbsp; | &nbsp; ESC: Pause
+            WASD pohyb <b>•</b> E inventár <b>•</b> ESC pauza
         </div>
 
         <div id="message"></div>
+
     </div>
 
-    <div id="pause-screen">
+
+    <!-- PAUZA -->
+    <div id="pause-screen" class="screen">
+
         <div class="pause-content">
-            <h1>PAUSED</h1>
-            <button id="resume-button">CONTINUE</button>
-            <button id="save-button">SAVE GAME</button>
-            <p>ESC – Continue</p>
+
+            <p class="eyebrow">WILD SURVIVAL</p>
+
+            <h2>POZASTAVENÉ</h2>
+
+            <button id="resume-button" class="primary-button">
+                POKRAČOVAŤ
+            </button>
+
+            <button id="save-button" class="secondary-button">
+                ULOŽIŤ HRU
+            </button>
+
+            <p>Stlač ESC pre pokračovanie</p>
+
         </div>
+
     </div>
 
+
+    <!-- HERNÝ JAVASCRIPT -->
     <script type="module" src="script.js"></script>
+
 </body>
 </html>
